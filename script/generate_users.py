@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from bank.models import Customer
+from customer.models import Customer
 from faker import Faker
 
 number_of_users = 15
