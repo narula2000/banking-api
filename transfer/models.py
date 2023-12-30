@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import Account
 
+
 class Transfer(models.Model):
     from_account = models.ForeignKey(
         Account,

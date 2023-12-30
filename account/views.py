@@ -116,5 +116,3 @@ class AccountTransfersRetrieveView(generics.RetrieveAPIView):
             response_data[i]['from_account']['customer'] = from_account_customer
             response_data[i]['to_account']['customer'] = to_account_customer
         return Response(response_data)
-
-
