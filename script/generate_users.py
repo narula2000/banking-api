@@ -14,5 +14,3 @@ for i in range(number_of_users):
         last_name=fake.last_name(),
     )
     user.save()
-    customer = Customer.objects.create(user=user)
-    customer.save()
