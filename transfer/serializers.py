@@ -10,7 +10,7 @@ class TransferSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transfer
-        fields = ['from_account', 'to_account', 'amount', 'timestamp']
+        fields = ['id', 'from_account', 'to_account', 'amount', 'timestamp']
 
 
 class TransferCreateSerializer(serializers.ModelSerializer):

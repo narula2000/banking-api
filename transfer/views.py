@@ -17,10 +17,16 @@ class TransferCreateView(generics.CreateAPIView):
     serializer_class = TransferCreateSerializer
 
     def create(self, request, *args, **kwargs):
-        transfer_data = request.data
-        from_account = Account.objects.get(id=transfer_data['from_account'])
-        to_account = Account.objects.get(id=transfer_data['to_account'])
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        transfer_data = serializer.validated_data
+        from_account = Account.objects.get(id=transfer_data['from_account'].id)
+        to_account = Account.objects.get(id=transfer_data['to_account'].id)
         amount = Decimal(transfer_data['amount'])
+
+        if amount <= 0:
+            return Response({'error': 'Amount must be positive.'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         if from_account.balance < amount:
             return Response({'error': 'Insufficient balance.'},

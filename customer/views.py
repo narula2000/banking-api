@@ -17,7 +17,8 @@ class CustomerRetrieveView(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         customer = self.get_object()
         serializer = CustomerSerializer(customer)
-        response_data = serializer.data
+        serializer.is_valid(raise_exception=True)
+        response_data = serializer.validated_data
         accounts = Account.objects.filter(customer=customer.id)
         total_balance = 0
         for account in accounts:

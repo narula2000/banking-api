@@ -27,8 +27,9 @@ class AccountRetrieveView(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = AccountSerializer(instance)
-        response_data = serializer.data
+        serializer = self.get_serializer(data=instance)
+        serializer.is_valid(raise_exception=True)
+        response_data = serializer.validated_data
         customer = instance.customer
         response_data['customer'] = CutomerWithoutAccountsSerializer(customer).data
         return Response(response_data)
@@ -43,8 +44,9 @@ class AccountsListView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        serializer = AccountSerializer(queryset, many=True)
-        response_data = serializer.data
+        serializer = self.get_serializer(data=queryset, many=True)
+        serializer.is_valid(raise_exception=True)
+        response_data = serializer.validated_data
         for i in range(len(response_data)):
             customer = queryset[i].customer
             response_data[i]['customer'] = CutomerWithoutAccountsSerializer(customer).data
